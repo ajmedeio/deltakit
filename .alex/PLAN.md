@@ -78,6 +78,7 @@ git switch alex/plan && git add .alex && git commit -m "dev: session log <date>"
 
 ### Wed Oct 14 — Post on #51, start the branch
 - [ ] Post the investigation comment on #51; ask to be assigned
+- [ ] LinkedIn: connect with **Adrien Suau** (likely `nelimee`) *after* the #51 comment is live; reference it (see Networking)
 - [ ] `git switch -c perf/lazy-imports upstream/main`
 - [ ] Prototype layer 1 (meta-package): lazy `deltakit.Client` + lazy subpackage re-exports (`lazy.attach` / `.pyi` stubs so typing + docs still work)
 - [ ] Only start layer 2 (deltakit-explorer) once a maintainer confirms that's wanted
@@ -102,9 +103,24 @@ git switch alex/plan && git add .alex && git commit -m "dev: session log <date>"
 
 ---
 
+## Networking (Riverlane people)
+
+Rules: one new person at a time, no referral asks in a first message, no repeated follow-ups. Lead with their work or a concrete contribution.
+
+| Person | Role | GitHub | Status |
+|---|---|---|---|
+| Sara Metwalli | Quantum Community Engineer | ? | Messaged on LinkedIn 2026-10-10 ("Applied to Riverlane"). Await reply. |
+| Amirreza Safehian | Senior SWE (deltakit-visualise, UK) | `safeamiiir` | Connection request + note sent 2026-10-10 (referenced compile/visualise blog post). If accepted: wait ~1 day, ask ONE specific question; mention #51 once posted. |
+| Adrien Suau | Senior Open-source SWE | likely `nelimee` | **Not yet.** Connect Wed Oct 14 after posting the #51 investigation. |
+
+---
+
 ## Session log
 
 Newest first. Each evening: what got done, what's blocked, exact next step.
+
+### 2026-10-10 (Sat) — outreach
+- Sent LinkedIn connection request + note to Amirreza Safehian (co-author of the 2026-09-03 deltakit-compile/visualise blog post). Already in touch with Sara Metwalli. Holding Adrien Suau until #51 comment is posted.
 
 ### 2026-10-10 (Sat) — setup with agent
 - Cloned `Deltakit/deltakit` @ `6c45d63`, forked to `ajmedeio/deltakit`, remotes configured (`origin` = fork, `upstream` = Deltakit). `main` tracks `upstream/main`.
