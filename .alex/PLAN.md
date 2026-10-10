@@ -28,6 +28,9 @@ well-communicated contribution beats ten typo PRs.
 - Batch commits; CI runs on every push.
 - **AI disclosure**: if an LLM influenced the contribution, say how in the PR description. Alex writes and understands every line. The agent helps with investigation, review and explanations.
 - Run `just check` (lint + security + test) before pushing.
+- **British spelling** (`typos` hook enforces it): optimise, behaviour, initialise, visualise, colour.
+- **No `print()`** in library code (ruff T201), and **no blanket `# noqa`**: name the rule (`# noqa: E501`).
+- The pre-commit hook rewrites files and then fails the commit. Review the diff, `git add`, and commit again.
 
 ## Environment
 
