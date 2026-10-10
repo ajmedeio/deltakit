@@ -67,14 +67,15 @@ git switch alex/plan && git add .alex && git commit -m "dev: session log <date>"
 - [ ] `uv run pre-commit install`
 - [ ] Re-read issue #51 thread, note who the maintainers are (`nelimee`, `rolandriver`, `mdhaber`)
 
-### Tue Oct 13 — Investigate #51 (no code changes yet)
-- [ ] Profile with `python -X importtime -c "import deltakit"` and per subpackage
-- [ ] Visualize with [`tuna`](https://github.com/nschloe/tuna) (`uvx tuna importtime.log`), screenshot it
-- [ ] Confirm/extend the Sat baseline (top offenders already identified: `error_budget`, `galois`, `_binomial_fit`, `deltakit_decode`). Trace *why* each is pulled in (which `__init__.py` line)
-- [ ] Clone `Deltakit/deltakit-explorer` next to this repo and read its `analysis/__init__.py` and `codes/__init__.py`
-- [ ] Read SPEC-0001 + `lazy-loader` docs; check `__init__.py` structure across subpackages
-- [ ] Decide scope: which subpackage gives the biggest win with the smallest diff
-- [ ] Draft the issue comment (data table + diagram + proposed approach + question about scope post-rearchitecture #332)
+### Tue Oct 13 — Investigate #51 (no code changes yet) ✅ mostly done early on Sat Oct 10 (see `notes/51-investigation.md`)
+- [x] Profile with `python -X importtime -c "import deltakit"` and per subpackage
+- [ ] Visualize with [`tuna`](https://github.com/nschloe/tuna) (`uvx tuna importtime.log`), screenshot it (optional; the mermaid diagram in the draft may be enough)
+- [x] Confirm/extend the Sat baseline (top offenders already identified: `error_budget`, `galois`, `_binomial_fit`, `deltakit_decode`). Trace *why* each is pulled in (which `__init__.py` line)
+- [x] Clone `Deltakit/deltakit-explorer` next to this repo and read its `analysis/__init__.py` and `codes/__init__.py`
+- [ ] Read SPEC-0001 + `lazy-loader` docs (Alex: read these yourself, since you'll defend the choice in review)
+- [x] Decide scope: step 1 = lazy `deltakit.Client` in meta-package (verified 0.81s → 0.025s)
+- [x] Draft the issue comment → `notes/51-issue-comment-DRAFT.md`
+- [ ] **Alex:** re-run numbers on a clean env (`uv sync` without test group), edit the draft into your voice, post it
 
 ### Wed Oct 14 — Post on #51, start the branch
 - [ ] Post the investigation comment on #51; ask to be assigned
@@ -118,6 +119,15 @@ Rules: one new person at a time, no referral asks in a first message, no repeate
 ## Session log
 
 Newest first. Each evening: what got done, what's blocked, exact next step.
+
+### 2026-10-10 (Sat) — #51 investigation (started early)
+- Cloned `Deltakit/deltakit-explorer` to `~/repos/github.com/Deltakit/deltakit-explorer` @ `a2d3442` (read-only so far; not forked).
+- #51 thread: only one comment (rolandriver, 2026-03-27: "must be prioritised", tagged nelimee). Unassigned.
+- Full findings: `notes/51-investigation.md`. Headline: `import deltakit.circuit` 0.811s vs `deltakit_circuit` 0.025s; cause is `deltakit/__init__.py` eagerly importing `deltakit_explorer.Client`, and explorer's `__init__` eagerly importing `analysis` → `error_budget` → pandas, `codes` → galois/numba.
+- Verified step 1 benefit without code changes: bypassing `deltakit/__init__` → `import deltakit.circuit` 0.025s (5/5), no pandas/galois loaded.
+- Gotchas: shims use `__all__ = [s for s in dir() ...]` (lazy needs explicit `__all__` or `.pyi` stub); `tests/unit/test_namespace_reexports.py` must still pass; `lazy_loader` is not a current dependency; `deltakit.decode` shim imports `deltakit_explorer._cloud_decoders`, so decode stays slow until explorer is fixed.
+- Draft comment: `notes/51-issue-comment-DRAFT.md`.
+- **Next step:** Alex reviews + posts the comment. Then wait for a maintainer reply before writing code (or prototype step 1 locally on `perf/lazy-client` while waiting, without pushing).
 
 ### 2026-10-10 (Sat) — outreach
 - Sent LinkedIn connection request + note to Amirreza Safehian (co-author of the 2026-09-03 deltakit-compile/visualise blog post). Already in touch with Sara Metwalli. Holding Adrien Suau until #51 comment is posted.
