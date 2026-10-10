@@ -60,16 +60,16 @@ git switch alex/plan && git add .alex && git commit -m "dev: session log <date>"
 - [x] Baseline test run (see session log)
 - [x] Baseline import-time measurement (see session log)
 
-### Mon Oct 12 — Learn the codebase + QEC basics
+### Mon Oct 12 — Learn the codebase + QEC basics → follow **`learn/01_walkthrough.md`** (started early Sat Oct 10)
 - [ ] Skim `README.md`, `docs/` getting-started guide, and the package layout under `src/deltakit/` (`core`, `circuit`, `decode`, `explorer`)
 - [ ] Work through [deltakit-textbook](https://github.com/Deltakit/deltakit-textbook) chapters 1–2 (repetition code, surface code basics)
-- [ ] Run one notebook / quick-start end-to-end locally (generate a circuit → simulate with Stim → decode)
-- [ ] `uv run pre-commit install`
+- [ ] Run one notebook / quick-start end-to-end locally → `learn/01_threshold.py` (predict first!)
+- [x] `uv run pre-commit install` (done Sat Oct 10)
 - [ ] Re-read issue #51 thread, note who the maintainers are (`nelimee`, `rolandriver`, `mdhaber`)
 
 ### Tue Oct 13 — Investigate #51 (no code changes yet) ✅ mostly done early on Sat Oct 10 (see `notes/51-investigation.md`)
 - [x] Profile with `python -X importtime -c "import deltakit"` and per subpackage
-- [ ] Visualize with [`tuna`](https://github.com/nschloe/tuna) (`uvx tuna importtime.log`), screenshot it (optional; the mermaid diagram in the draft may be enough)
+- [ ] Visualise with [`tuna`](https://github.com/nschloe/tuna) (`uvx tuna importtime.log`), screenshot it (optional; the mermaid diagram in the draft may be enough)
 - [x] Confirm/extend the Sat baseline (top offenders already identified: `error_budget`, `galois`, `_binomial_fit`, `deltakit_decode`). Trace *why* each is pulled in (which `__init__.py` line)
 - [x] Clone `Deltakit/deltakit-explorer` next to this repo and read its `analysis/__init__.py` and `codes/__init__.py`
 - [ ] Read SPEC-0001 + `lazy-loader` docs (Alex: read these yourself, since you'll defend the choice in review)
@@ -119,6 +119,13 @@ Rules: one new person at a time, no referral asks in a first message, no repeate
 ## Session log
 
 Newest first. Each evening: what got done, what's blocked, exact next step.
+
+### 2026-10-10 (Sat) — Monday prep (started early)
+- Installed pre-commit hook (`.git/hooks/pre-commit`). Note: hooks run on commits to `alex/plan` too.
+- README quick start runs locally: d=3, p=0.01 → LEP 3.84e-2 (1.4s). Simulated circuits are `deltakit_stim` circuits.
+- Built `learn/01_walkthrough.md` (mental model → predict-then-run threshold exercise → code tour → textbook) and `learn/01_threshold.py`. All commands in the walkthrough verified.
+- Observation for later (not an issue yet): ToyNoise threshold sits between p=0.002 and p=0.01 for MWPM, so the README quick start's p=0.01 is *above* threshold; increasing `d` there makes LEP worse. Possible docs improvement to raise with a maintainer once there's rapport.
+- **Next step:** Alex works through `learn/01_walkthrough.md`; separately, edit + post the #51 comment draft.
 
 ### 2026-10-10 (Sat) — #51 investigation (started early)
 - Cloned `Deltakit/deltakit-explorer` to `~/repos/github.com/Deltakit/deltakit-explorer` @ `a2d3442` (read-only so far; not forked).
